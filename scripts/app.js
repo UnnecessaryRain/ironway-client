@@ -20,7 +20,7 @@ window.onload = function () {
 	Client.Initialise();
 
 	Display.LogMessage("Client initialised.");
-
+	
 	Server.Connect();
 }
 

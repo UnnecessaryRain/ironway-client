@@ -2,13 +2,14 @@
 	--color-primary: lightgrey;
 	--color-secondary: lightblue;
 	--color-background: black;
+	--standard-font: 'Courier New', Courier, monospace;
 }
 
 html,
 body {
 	background-color: var(--color-background);
 	color: var(--color-primary);
-	font-family: 'Courier New', Courier, monospace;
+	font-family: var(--standard-font);
 	max-height: 100%;
 	max-width: 100%;
 	margin: 0px;
@@ -42,7 +43,7 @@ a {
 	border-width: thin;
 	background-color: var(--color-background);
 	color: var(--color-primary);
-	font-family: 'Courier New', Courier, monospace;
+	font-family: var(--standard-font);
 	font-size: 1em;
 	text-align: top;
 }

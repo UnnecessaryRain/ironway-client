@@ -1,11 +1,4 @@
 Display = {
-	// _log: null,
-	// _map_view: null;
-	// _map_title: null;
-	// _map_zoom: null;
-	// _styles: null;
-
-	// Initialise finds all elements and does ini
 	Initialise: function () {
 		Display._log = document.getElementById("log");
 		Display._map_viewer = document.getElementById("map-viewer");
@@ -86,7 +79,7 @@ Display = {
 			return;
 		}
 
-		// TODO(sam) : Add trimming of overful elements
+		// TODO(Samuel-Lewis) : Add trimming of overful elements
 		element.innerHTML += "<p>" + message + "</p>";
 		element.scrollTop = element.scrollHeight;
 	},

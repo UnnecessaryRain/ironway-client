@@ -1,16 +1,5 @@
 Server = {
-	// var _socket: null,
-	// var _proto: null,
-
-	Initialise: function () {
-		// Server._proto = protobuf.load("https://localhost:8000/static/client_message.proto", function(error, root) {
-		// 	if (error) {
-		// 		throw error;
-		// 	}
-
-		// 	Server._client_message = root.lookupType("mudpackage.ClientMessage");
-		// });
-	},
+	Initialise: function () {},
 
 	// RunCommand sends command straight to server
 	RunCommand: function (command) {
@@ -59,7 +48,7 @@ Server = {
 
 	// Disconnect from the server
 	Disconnect: function () {
-		// TODO(sam) : Send some logout mesage;
+		// TODO(Samuel-Lewis) : Send some logout mesage
 		Server._socket.close();
 	},
 
@@ -96,13 +85,5 @@ Server = {
 		}
 
 		Server._socket.send(JSON.stringify(payload));
-		// var proto_error = Server._client_message.verify(payload);
-		// if (proto_error) {
-		// 	throw proto_error;
-		// }
-
-		// var proto_message = Server._client_message.create(payload);
-		// var buffer = Server._client_message.encode(proto_message).finish();
-		// Server._socket.send(buffer);
 	},
 }

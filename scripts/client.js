@@ -1,7 +1,4 @@
 Client = {
-	// _commands: null,
-	// _help_functions: null,
-
 	Initialise: function () {
 		Client._commands = {};
 		Client._help_functions = {};
@@ -26,11 +23,13 @@ Client = {
 		Client._AddHelpFunction("//bind key command", "Binds \\i{key} to \\i{command}");
 		Client._AddHelpFunction("//bind key", "Unbinds \\i{key}");
 
+		// Clear screen command
 		Client._AddCommand("clear", function (tokens) {
 			Display.ClearFrame("log");
 		});
 		Client._AddHelpFunction("//clear", "Clears the history log");
 
+		// Zoom command
 		Client._AddCommand("zoom", function (tokens) {
 			if (tokens.length == 1) {
 				Display.MapZoom(0);
@@ -45,12 +44,12 @@ Client = {
 		Client._AddHelpFunction("//zoom in", "Zooms the map in");
 		Client._AddHelpFunction("//zoom out", "Zooms the map out");
 
+		// Server debug commands
 		Client._AddCommand("server", function (tokens) {
 			if (tokens.length == 1) {
 				Display.LogMessage("Server status: " + Server.Status());
 				return;
 			}
-
 			switch (tokens[1]) {
 				case "connect":
 					Server.Connect();
@@ -91,7 +90,6 @@ Client = {
 			Server.RunCommand(command);
 			return;
 		}
-
 		Input.RecordHistory(command);
 
 		// Get command and tail

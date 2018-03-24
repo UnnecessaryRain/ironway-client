@@ -1,15 +1,10 @@
 Input = {
-	// _input: null,
-	// _binds: null,
-	// _override_binds: null,
-	// _history: null,
-	// _history_index: null,
-
-	// Initialise the Input class and add default bindings
 	Initialise: function () {
 		Input._input = document.getElementById("input-command");
 		Input._history = [];
 		Input._history_index = -1;
+		Input._binds = {};
+		Input._override_binds = [];
 
 		Input._Focus();
 		Input._ResetBinds();
@@ -23,7 +18,7 @@ Input = {
 			return;
 		}
 
-		// TODO(sam) : Push new bind config to server
+		// TODO(Samuel-Lewis) : Push new bind config to server
 		Input._binds[key] = action;
 		Display.LogMessage("Key \\green{" + key + "} has been bound!");
 	},
@@ -34,7 +29,7 @@ Input = {
 			Display.LogError("Keycode '" + key + "' is a reserved system bind.");
 			return;
 		}
-		// TODO(sam) : Push new bind config to server
+		// TODO(Samuel-Lewis) : Push new bind config to server
 		delete Input._binds[key];
 		Display.LogMessage("Key \\green{" + key + "} has been unbound!");
 	},
