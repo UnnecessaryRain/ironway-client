@@ -1,0 +1,108 @@
+Server = {
+	// var _socket: null,
+	// var _proto: null,
+
+	Initialise: function () {
+		// Server._proto = protobuf.load("https://localhost:8000/static/client_message.proto", function(error, root) {
+		// 	if (error) {
+		// 		throw error;
+		// 	}
+
+		// 	Server._client_message = root.lookupType("mudpackage.ClientMessage");
+		// });
+	},
+
+	// RunCommand sends command straight to server
+	RunCommand: function (command) {
+		command = command.trim();
+
+		// Double check it's not a client command
+		if (command.startsWith("//")) {
+			Client.RunCommand(command);
+			return;
+		}
+
+		Input.RecordHistory(command);
+		Server._Send(command);
+	},
+
+	// Connect to server and address
+	Connect: function () {
+		if (!("WebSocket" in window)) {
+			alert("WebSockets are not supported by your browser. Please upgrade to connect to the server.");
+			Display.LogError("WebSockets are not supported by your browser. Please upgrade to connect to the server.");
+			return;
+		}
+
+		Display.LogMessage("Opening websocket to ws://127.0.0.1:8080...");
+		Server._socket = new WebSocket("ws://127.0.0.1:8080/ws");
+
+		Server._socket.onopen = function () {
+			Display.LogMessage("Connected to server.");
+			Display.LogMessage("Sending test message...");
+			Server.Ping();
+		}
+
+		Server._socket.onerror = function () {
+			Display.LogError("Could not connect to server. Please check connection.");
+		}
+
+		Server._socket.onclose = function () {
+			Display.LogMessage("Server has disconnected.");
+		}
+
+		Server._socket.onmessage = function (event) {
+			console.log(event.data);
+			Display.LogMessage("Message recieved!");
+		}
+	},
+
+	// Disconnect from the server
+	Disconnect: function () {
+		// TODO(sam) : Send some logout mesage;
+		Server._socket.close();
+	},
+
+	// Ping sends a ping
+	Ping: function () {
+		Server._Send("Ping!");
+	},
+
+	// Status gets status (in words) of server
+	Status: function () {
+		switch (Server._socket.readyState) {
+			case 0:
+				return "Disconnected";
+			case 1:
+				return "Connected";
+			case 2:
+				return "Disconnecting";
+			case 3:
+				return "Closed";
+			default:
+				return "Unknown";
+		}
+	},
+
+	// _Send JSONified message to server
+	_Send: function (message) {
+		if (Server._socket.readyState != 1) {
+			Display.LogError("Could not connect to server. Please check connection.");
+			return;
+		}
+
+		var payload = {
+			"messages": [message],
+		}
+
+		Server._socket.send(JSON.stringify(payload));
+		// var proto_error = Server._client_message.verify(payload);
+		// if (proto_error) {
+		// 	throw proto_error;
+		// }
+
+		// var proto_message = Server._client_message.create(payload);
+		// var buffer = Server._client_message.encode(proto_message).finish();
+		// Server._socket.send(buffer);
+	},
+}
