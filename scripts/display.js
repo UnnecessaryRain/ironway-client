@@ -1,5 +1,5 @@
 Display = {
-	Initialise: function () {
+	Initialise() {
 		Display._log = document.getElementById("log");
 		Display._map_viewer = document.getElementById("map-viewer");
 		Display._map_title = document.getElementById("map-title");
@@ -17,25 +17,25 @@ Display = {
 	},
 
 	// LogMessage logs message to log box
-	LogMessage: function (message) {
+	LogMessage(message) {
 		message = Display.Format(message);
 		Display._Append(Display._log, message);
 	},
 
 	// LogError prints a flavoured error message
-	LogError: function (message) {
+	LogError(message) {
 		Display.LogMessage("\\red{Error}: " + message);
 	},
 
 	// ClearFrame removes all content of a given frame.
-	ClearFrame: function (frame) {
+	ClearFrame(frame) {
 		if (frame == "log") {
 			Display._Set(Display._log, "");
 		}
 	},
 
 	// MapZoom changes font size of the map to 'zoom'
-	MapZoom: function (direction) {
+	MapZoom(direction) {
 		Display._map_zoom += direction * 0.2;
 		Display._map_zoom = Math.max(0.6, Display._map_zoom);
 		Display._map_zoom = Math.min(2, Display._map_zoom);
@@ -43,12 +43,12 @@ Display = {
 		Display.MapRecenter();
 	},
 
-	MapRecenter: function () {
+	MapRecenter() {
 		// Display._map_viewer.scrollTo(0, Display._map_viewer.height/2);
 	},
 
 	// Format formats given string message with colours and trimming
-	Format: function (message) {
+	Format(message) {
 		message = message.trim();
 
 		// Find formats
@@ -74,7 +74,7 @@ Display = {
 	},
 
 	// _Append appends to end of element, and scrolls to new content
-	_Append: function (element, message) {
+	_Append(element, message) {
 		if (message.length < 0) {
 			return;
 		}
@@ -85,7 +85,7 @@ Display = {
 	},
 
 	// _Set replaces entire innerHTML of element with message
-	_Set: function (element, message) {
+	_Set(element, message) {
 		element.innerHTML = message;
 	},
 };

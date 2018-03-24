@@ -1,8 +1,8 @@
 Server = {
-	Initialise: function () {},
+	Initialise() {},
 
 	// RunCommand sends command straight to server
-	RunCommand: function (command) {
+	RunCommand(command) {
 		command = command.trim();
 
 		// Double check it's not a client command
@@ -16,7 +16,7 @@ Server = {
 	},
 
 	// Connect to server and address
-	Connect: function () {
+	Connect() {
 		if (!("WebSocket" in window)) {
 			alert("WebSockets are not supported by your browser. Please upgrade to connect to the server.");
 			Display.LogError("WebSockets are not supported by your browser. Please upgrade to connect to the server.");
@@ -47,18 +47,18 @@ Server = {
 	},
 
 	// Disconnect from the server
-	Disconnect: function () {
+	Disconnect() {
 		// TODO(Samuel-Lewis) : Send some logout mesage
 		Server._socket.close();
 	},
 
 	// Ping sends a ping
-	Ping: function () {
+	Ping() {
 		Server._Send("Ping!");
 	},
 
 	// Status gets status (in words) of server
-	Status: function () {
+	Status() {
 		switch (Server._socket.readyState) {
 			case 0:
 				return "Disconnected";
@@ -74,7 +74,7 @@ Server = {
 	},
 
 	// _Send JSONified message to server
-	_Send: function (message) {
+	_Send(message) {
 		if (Server._socket.readyState != 1) {
 			Display.LogError("Could not connect to server. Please check connection.");
 			return;
@@ -86,4 +86,4 @@ Server = {
 
 		Server._socket.send(JSON.stringify(payload));
 	},
-}
+};

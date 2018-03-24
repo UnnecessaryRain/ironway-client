@@ -1,5 +1,5 @@
 Input = {
-	Initialise: function () {
+	Initialise() {
 		Input._input = document.getElementById("input-command");
 		Input._history = [];
 		Input._history_index = -1;
@@ -12,7 +12,7 @@ Input = {
 	},
 
 	// AddBind adds a bind associated with a key. Action must be a function.
-	AddBind: function (key, action) {
+	AddBind(key, action) {
 		if (Input._override_binds.includes(key)) {
 			Display.LogError("Keycode '" + key + "' is a reserved system bind.");
 			return;
@@ -24,7 +24,7 @@ Input = {
 	},
 
 	// RemoveBind deletes the bind associated with a key
-	RemoveBind: function (key) {
+	RemoveBind(key) {
 		if (Input._override_binds.includes(key)) {
 			Display.LogError("Keycode '" + key + "' is a reserved system bind.");
 			return;
@@ -35,14 +35,14 @@ Input = {
 	},
 
 	// Prefill populates the input box with suggested command
-	Prefill: function (command) {
+	Prefill(command) {
 		Input._input.value = command;
 		Input._input.value = Input._input.value;
 		Input._Focus();
 	},
 
 	// RecordsHistory saves last command (if not repeated)
-	RecordHistory: function (command) {
+	RecordHistory(command) {
 		Input._history_index = -1;
 		if (Input._history.length > 0) {
 			if (command == Input._history[0]) {
@@ -53,7 +53,7 @@ Input = {
 		Input._history.unshift(command);
 	},
 
-	_HistoryCycle: function (direction) {
+	_HistoryCycle(direction) {
 		Input._history_index += direction;
 		Input._history_index = Math.max(-1, Input._history_index);
 		Input._history_index = Math.min(Input._history.length - 1, Input._history_index);
@@ -66,7 +66,7 @@ Input = {
 	},
 
 	// _TryKey executes any bound found to the key 
-	_TryKey: function (event) {
+	_TryKey(event) {
 		// Can't interrupt input unless special bind
 		if (Input._IsFocused() && !Input._override_binds.includes(event.key)) {
 			return;
@@ -78,7 +78,7 @@ Input = {
 	},
 
 	// _ResetBinds removes old binds and readds defaults
-	_ResetBinds: function () {
+	_ResetBinds() {
 		Input._binds = {};
 		Input._override_binds = [];
 
@@ -132,18 +132,18 @@ Input = {
 	},
 
 	// _Focus focuses on the input
-	_Focus: function () {
+	_Focus() {
 		Input._input.focus();
 	},
 
 	// _Defocus on input box
-	_Defocus: function () {
+	_Defocus() {
 		Input._input.blur();
 		document.activeElement.blur();
 	},
 
 	// _IsFocused checks if _input box is currently selected
-	_IsFocused: function () {
+	_IsFocused() {
 		return (Input._input === document.activeElement);
 	},
-}
+};

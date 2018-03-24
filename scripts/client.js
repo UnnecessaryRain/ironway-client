@@ -1,5 +1,5 @@
 Client = {
-	Initialise: function () {
+	Initialise() {
 		Client._commands = {};
 		Client._help_functions = {};
 
@@ -82,7 +82,7 @@ Client = {
 	},
 
 	// RunCommand looks at command, interprets if its for server of client
-	RunCommand: function (command) {
+	RunCommand(command) {
 		command = command.trim();
 
 		// Double check it's meant to be a client command
@@ -105,17 +105,17 @@ Client = {
 	},
 
 	// _AddCommand adds a keyword `command` that calls an action.
-	_AddCommand: function (command, action) {
+	_AddCommand(command, action) {
 		Client._commands[command] = action;
 	},
 
 	// _AddHelpFunction adds help function and text for pretty print
-	_AddHelpFunction: function (command, message) {
+	_AddHelpFunction(command, message) {
 		Client._help_functions[command] = message;
 	},
 
 	// _HelpText gets listed help functions and organises and pretty arranges them
-	_HelpText: function () {
+	_HelpText() {
 		var longest = 0;
 		var keys = Object.keys(Client._help_functions);
 		keys.sort();
