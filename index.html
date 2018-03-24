@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<link rel="stylesheet" href="css/styles.css">
+	<script src="scripts/app.js"></script>
+	<script src="scripts/display.js"></script>
+	<script src="scripts/server.js"></script>
+	<script src="scripts/client.js"></script>
+	<script src="scripts/input.js"></script>
+	<title>MudMud Client | Alpha 0.0.01</title>
+</head>
+
+<body>
+	<div class="grid-wrapper">
+		<div class="frame" id="map">
+			<div id="map-title">North Umberlain | Sample Map</div>
+			<div id="map-viewer">
+				AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA ASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSA AS...PPP......................SA ASPPPPPP......................SA
+				ASPPPPPP......................SA ASPPPPPP......................SA ASPPPPPP......................SA ASPPPPPP......................SA
+				ASPPPPPP......................SA AS...PPP......................SA AS...PPP......................SA AS.................11111......SA
+				AS.................11111......SA AS.................11111......SA AS..G.......g......11111......SA AS..........gg....L11111......SA
+				AS...........gg...LLL.........SA AS........WW.gg...............SA AS........WWW.g...............SA AS........WWW.g...............SA
+				AS........WWW.................SA AS........WLLLL....L..........SA A22222.g.WWL..................SA A22222.WWWWW..................SA
+				A22222WWWWWWW.................SA A22222WWWWWWW.................SA A22222G.WWWWW.................SA AS..WW..WWWWWW................SA
+				AS.WWWW.WWWW..................SA AS..WWWWWW....................SA ASSSSSSSSSSSSSSSSSSSSSSSSSSSSSSA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+			</div>
+		</div>
+
+		<div class="frame" id="chat">
+			<u>[ CHAT : SAMPLE ]</u>
+			<p>[Global][ScrumMan33] how do i sell my chalk? </p>
+			<p>[Global][doodoo] use /market </p>
+			<p style="color:green">Jacobious whispered to you "We should add a hot link to commands or something" </p>
+			<p>[Global][doodoo] or just drop 'em. it won't sell for anything </p>
+			<p style="color:green">You whispered to Jacobious "too busy leveling. do it later" </p>
+		</div>
+
+		<div class="frame" id="context">
+			<u>[ INVENTORY ]</u>
+			<br> [a] iron sword +1 (equipped)
+			<br> [b] leather hat (equipped)
+			<br> [c] 9 iron nails
+			<br> [d] 2 food (stale)
+			<br> [e] imp skin backpack
+			<br>
+		</div>
+
+		<div class="frame" id="online">
+			<u>[ ONLINE (5) ]</u>
+			<br> Jacobious
+			<br> Veeq (you)
+			<br> doodoo
+			<br> ScrumMan33
+			<br> JakeTrain
+			<br>
+		</div>
+
+		<div class="frame" id="stats">
+			<u>[ STATS ]</u>
+			<br> HP : [#####-] (23/25)
+			<br> MP : [######] (40/40)
+			<br>
+			<br> ATK : 3 (+1)
+			<br> DEF : 9
+			<br> INT : 2
+			<br> WIS : 6
+			<br>
+			<p>
+				Status: Hungry
+			</p>
+		</div>
+
+		<div class="frame" id="info">
+			Use
+			<span style="color:lightblue">/help</span> for basic commands
+			<br> https://no-u.com/wiki/getting-started
+		</div>
+
+		<div class="frame" id="log"></div>
+
+		<div class="frame" id="input">
+			>
+			<input type="text" class="input" id="input-command">
+		</div>
+
+	</div>
+</body>
+</html>

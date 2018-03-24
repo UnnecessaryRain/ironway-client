@@ -1,0 +1,127 @@
+:root {
+	--color-primary: lightgrey;
+	--color-secondary: lightblue;
+	--color-background: black;
+	--standard-font: 'Courier New', Courier, monospace;
+}
+
+html,
+body {
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	font-family: var(--standard-font);
+	max-height: 100%;
+	max-width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+a {
+	text-decoration: underline;
+	color: var(--color-secondary);
+}
+
+.grid-wrapper {
+	height: 100vh;
+	width: 100vw;
+	max-width: 100%;
+	max-height: 100%;
+	/* Main window padding */
+	padding: 5px;
+	box-sizing: border-box;
+	/* Grid */
+	display: grid;
+	grid-template-rows: 60% 30% 10%;
+	grid-template-columns: 25% 50% 25%;
+}
+
+.frame {
+	padding: 10px;
+	margin: 5px;
+	overflow: auto;
+	border: ridge var(--color-primary);
+	border-width: thin;
+	background-color: var(--color-background);
+	color: var(--color-primary);
+	font-family: var(--standard-font);
+	font-size: 1em;
+	text-align: top;
+}
+
+.input {
+	width: 95%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+	border: none;
+	background: var(--color-background);
+	color: var(--color-primary);
+	font-size: 1em;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+.input:focus {
+	outline: none;
+}
+
+#map-viewer {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	white-space: normal;
+	text-align: justify;
+	text-align: center;
+	overflow: scroll;
+	font-size: 1em;
+	position: relative;
+}
+
+#map-title {
+	width: 100%;
+	text-align: center;
+	padding-bottom: 1em;
+}
+
+/* FRAME PLACEMENT */
+
+#chat {
+	grid-column: 1 / span 1;
+	grid-row: 1 / span 1;
+}
+
+#map {
+	grid-column: 2 / span 1;
+	grid-row: 1 / span 1;
+	overflow: hidden;
+}
+
+#context {
+	grid-column: 3 / span 1;
+	grid-row: 1 / span 1;
+}
+
+#online {
+	grid-column: 1 / span 1;
+	grid-row: 2 / span 1;
+}
+
+#info {
+	grid-column: 1 / span 1;
+	grid-row: 3 / span 1;
+}
+
+#stats {
+	grid-column: 3 / span 1;
+	grid-row: 2 / span 2;
+}
+
+#log {
+	grid-column: 2 / span 1;
+	grid-row: 2 / span 1;
+}
+
+#input {
+	grid-column: 2 / span 1;
+	grid-row: 3 / span 1;
+}
