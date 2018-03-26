@@ -84,6 +84,7 @@ Client = {
 	// RunCommand looks at command, interprets if its for server of client
 	RunCommand(command) {
 		command = command.trim();
+		command = Utils.EscapeHtml(command);
 
 		// Double check it's meant to be a client command
 		if (!command.startsWith("//")) {

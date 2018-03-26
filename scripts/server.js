@@ -4,6 +4,7 @@ Server = {
 	// RunCommand sends command straight to server
 	RunCommand(command) {
 		command = command.trim();
+		command = Utils.EscapeHtml(command);
 
 		// Double check it's not a client command
 		if (command.startsWith("//")) {
