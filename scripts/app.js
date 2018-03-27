@@ -13,6 +13,13 @@ Util = {
 		} while (match != null);
 		return words;
 	},
+
+	// EscapeHtml sanitises input and escapes html
+	EscapeHtml(text) {
+		var div = document.createElement('div');
+		div.appendChild(document.createTextNode(text));
+		return div.innerHTML;
+	},
 };
 
 window.onload = function () {
