@@ -91,7 +91,6 @@ Client = {
 			Server.RunCommand(command);
 			return;
 		}
-		Input.RecordHistory(command);
 
 		// Get command and tail
 		command = command.slice(2);
