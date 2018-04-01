@@ -79,7 +79,7 @@ Display = {
 			return;
 		}
 
-		// TODO(Samuel-Lewis) : Add trimming of overful elements
+		// TODO(#11) : Add trimming of overful elements
 		element.innerHTML += "<p>" + message + "</p>";
 		element.scrollTop = element.scrollHeight;
 	},

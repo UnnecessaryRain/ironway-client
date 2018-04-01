@@ -24,32 +24,26 @@ Server = {
 			return;
 		}
 
-		Display.LogMessage("Opening websocket to ws://127.0.0.1:8080...");
+		Display.LogMessage("Connecting to server...");
 		Server._socket = new WebSocket("ws://127.0.0.1:8080/ws");
 
-		Server._socket.onopen = function () {
-			Display.LogMessage("Connected to server.");
-			Display.LogMessage("Sending test message...");
-			Server.Ping();
+		Server._socket.onopen = function (event) {
+			Server._OnOpen(event);
 		}
-
-		Server._socket.onerror = function () {
-			Display.LogError("Could not connect to server. Please check connection.");
+		Server._socket.onclose = function (event) {
+			Server._OnClose(event);
 		}
-
-		Server._socket.onclose = function () {
-			Display.LogMessage("Server has disconnected.");
-		}
-
 		Server._socket.onmessage = function (event) {
-			console.log(event.data);
-			Display.LogMessage("Message recieved!");
+			Server._OnMessage(event);
+		}
+		Server._socket.onerror = function (event) {
+			Server._OnError(event);
 		}
 	},
 
 	// Disconnect from the server
 	Disconnect() {
-		// TODO(Samuel-Lewis) : Send some logout mesage
+		// TODO(#10) : Send some logout notification to server
 		Server._socket.close();
 	},
 
@@ -86,5 +80,35 @@ Server = {
 		}
 
 		Server._socket.send(JSON.stringify(payload));
+	},
+
+	// _OnOpen event trigger from connecting to server
+	_OnOpen(event) {
+		Display.LogMessage("Connected to server!");
+		Server.Ping();
+	},
+
+	// _OnClose event trigger from disconnecting to server
+	_OnClose(event) {
+		Display.LogMessage("Disconnected from server.");
+	},
+
+	// _OnMessage event trigger from recieving message from server
+	_OnMessage(event) {
+		var json = JSON.parse(event.data);
+		if (json["messages"] == undefined) {
+			console.error("Expected field 'messages' in server response", json);
+			return;
+		}
+
+		for (m in json.messages) {
+			Display.LogMessage("\\green{Server:} " + json.messages[m]);
+		}
+	},
+
+	// _OnMessage event trigger from error with server connection
+	_OnError(event) {
+		console.error("Could not connect to server", event);
+		Display.LogError("Could not connect to server. Please check connection.");
 	},
 };

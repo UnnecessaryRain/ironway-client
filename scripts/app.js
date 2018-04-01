@@ -28,7 +28,7 @@ window.onload = function () {
 	Input.Initialise();
 	Client.Initialise();
 
-	Display.LogMessage("Client initialised.");
+	Display.ClearFrame("log");
 
 	Server.Connect();
 }

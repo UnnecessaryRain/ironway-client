@@ -18,7 +18,7 @@ Input = {
 			return;
 		}
 
-		// TODO(Samuel-Lewis) : Push new bind config to server
+		// TODO(#6) : Push new bind config to server
 		Input._binds[key] = action;
 		Display.LogMessage("Key \\green{" + key + "} has been bound!");
 	},
@@ -29,7 +29,7 @@ Input = {
 			Display.LogError("Keycode '" + key + "' is a reserved system bind.");
 			return;
 		}
-		// TODO(Samuel-Lewis) : Push new bind config to server
+		// TODO(#6) : Push new bind config to server
 		delete Input._binds[key];
 		Display.LogMessage("Key \\green{" + key + "} has been unbound!");
 	},
