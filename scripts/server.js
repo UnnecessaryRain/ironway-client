@@ -12,7 +12,6 @@ Server = {
 			return;
 		}
 
-		Input.RecordHistory(command);
 		Server._Send(command);
 	},
 

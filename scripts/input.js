@@ -85,6 +85,7 @@ Input = {
 		// Select input or send
 		Input.AddBind("Enter", function () {
 			if (Input._IsFocused()) {
+				Input.RecordHistory(Input._input.value);
 				Client.RunCommand(Input._input.value);
 				Input._input.value = "";
 			} else {
