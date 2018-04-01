@@ -57,7 +57,7 @@ a {
 	background: var(--color-background);
 	color: var(--color-primary);
 	font-size: 1em;
-	font-family: 'Courier New', Courier, monospace;
+	font-family: var(--standard-font);
 }
 
 .input:focus {
@@ -75,6 +75,7 @@ a {
 	overflow: scroll;
 	font-size: 1em;
 	position: relative;
+	white-space: pre;
 }
 
 #map-title {
