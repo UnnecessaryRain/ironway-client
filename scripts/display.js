@@ -1,8 +1,10 @@
 Display = {
 	Initialise() {
-		Display._log = document.getElementById("log");
-		Display._map_viewer = document.getElementById("map-viewer");
-		Display._map_title = document.getElementById("map-title");
+		Display._frames = {};
+		Display._frames["log"] = document.getElementById("log");
+		Display._frames["chat"] = document.getElementById("chat");
+		Display._frames["map-viewer"] = document.getElementById("map-viewer");
+		Display._frames["map-title"] = document.getElementById("map-title");
 		Display._map_zoom = 1;
 
 		Display._styles = {
@@ -18,19 +20,30 @@ Display = {
 
 	// LogMessage logs message to log box
 	LogMessage(message) {
-		message = Display.Format(message);
-		Display._Append(Display._log, message);
+		Display.Write("log", message, "APPEND");
 	},
-
+	
 	// LogError prints a flavoured error message
 	LogError(message) {
-		Display.LogMessage("\\red{Error}: " + message);
+		message = "\\red{Error}: " + message;
+		Display.Write("log", message, "APPEND");
 	},
 
 	// ClearFrame removes all content of a given frame.
 	ClearFrame(frame) {
-		if (frame == "log") {
-			Display._Set(Display._log, "");
+		Display.Write(frame, "", "REPLACE");
+	},
+
+	// Write a message to a frame, either append or replace mode
+	Write(frame, message, mode) {
+		message = Display.Format(message);
+
+		if (mode == "APPEND") {
+			Display._Append(Display._frames[frame], message);
+		} else if (mode == "REPLACE") {
+			Display._Set(Display._frames[frame], message);
+		} else {
+			console.warn("'mode' must be either 'APPEND' or 'REPLACE'", mode);
 		}
 	},
 
@@ -39,12 +52,7 @@ Display = {
 		Display._map_zoom += direction * 0.2;
 		Display._map_zoom = Math.max(0.6, Display._map_zoom);
 		Display._map_zoom = Math.min(2, Display._map_zoom);
-		Display._map_viewer.style.fontSize = Display._map_zoom + "em";
-		Display.MapRecenter();
-	},
-
-	MapRecenter() {
-		// Display._map_viewer.scrollTo(0, Display._map_viewer.height/2);
+		Display._frames["map-viewer"].style.fontSize = Display._map_zoom + "em";
 	},
 
 	// Format formats given string message with colours and trimming
