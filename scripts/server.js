@@ -66,25 +66,49 @@ Server = {
 				return "Unknown";
 		}
 	},
-
+	
 	// SendMessage sends plain text to interpret as command
 	SendMessage(messageStr) {
-		var payload = {};
-		payload.messages = [messageStr];
-		Server._Write(payload);
+		Server._Write([messageStr]);
 	},
 
 	// _Write converts message object to JSON and sends to server
-	_Write(message) {
+	_Write(messages) {
 		if (Server._socket.readyState != 1) {
 			Display.LogError("Could not connect to server. Please check connection.");
 			return;
 		}
 
-		message.metadata = Auth.GetMetadata();
+		var packet = {};
+		packet.metadata = Auth.GetMetadata();
+		packet.client_messages = [];
+		packet.server_messages = messages;
 
-		var payload = JSON.stringify(message);
+		var payload = Server._Serialise(packet);
+		console.log(payload);
 		Server._socket.send(payload);
+	},
+	
+	// _Serialise converts js object to JSON string
+	_Serialise(packetObj) {
+		return JSON.stringify(packetObj);
+	},
+
+	// _Deserialise converts JSON string to js object and verifies
+	_Deserialise(packetStr) {
+		var packet = JSON.parse(packetStr);
+		if (packet.metadata == undefined) {
+			console.error("No field 'metadata' attached to packet", packetStr);
+			return {};
+		}
+
+		// TODO() : Auth packet.metadata against client Auth
+
+		if (packet.client_messages == undefined) {
+			console.error("No field 'client_messages' attached to packet", packetStr);
+			return {};
+		}
+		return packet;
 	},
 
 	// _OnOpen event trigger from connecting to server
@@ -100,14 +124,10 @@ Server = {
 
 	// _OnMessage event trigger from recieving message from server
 	_OnMessage(event) {
-		var json = JSON.parse(event.data);
-		if (json.updates == undefined) {
-			console.error("Expected field 'updates' in server response", json);
-			return;
-		}
+		var packet = Server._Deserialise(event.data);
 
-		for (update in json.updates) {
-			var message = json.updates[update];
+		for (update in packet.client_messages) {
+			var message = packet.client_messages[update];
 			Display.LogMessage("\\green{Server:} " + message.content);
 			Display.Write(message.frame, message.content, message.mode);
 		}
