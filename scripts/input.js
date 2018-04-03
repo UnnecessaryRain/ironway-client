@@ -43,11 +43,14 @@ Input = {
 
 	// RecordsHistory saves last command (if not repeated)
 	RecordHistory(command) {
+		command = command.trim();
+		if (command.length == 0) {
+			return;
+		}
+		
 		Input._history_index = -1;
-		if (Input._history.length > 0) {
-			if (command == Input._history[0]) {
-				return;
-			}
+		if (command == Input._history[0]) {
+			return;
 		}
 
 		Input._history.unshift(command);
@@ -86,7 +89,7 @@ Input = {
 		Input.AddBind("Enter", function () {
 			if (Input._IsFocused()) {
 				Input.RecordHistory(Input._input.value);
-				Client.RunCommand(Input._input.value);
+				Util.TryCommand(Input._input.value);
 				Input._input.value = "";
 			} else {
 				Input._Focus();

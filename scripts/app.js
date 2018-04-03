@@ -1,5 +1,12 @@
 Util = {
-	// Tokenise splits strings on spaces or double quoted strings
+	/**
+	 * Tokenise splits strings on spaces or double quoted strings
+	 * Eg: my "red dog" smells  ==>  ["my", "red dog", "smells"] 
+	 * 
+	 * @public
+	 * @param {string} input_string String of space delimited or quote words
+	 * @returns {(string|Array)} Array of words split by spaces or quotes
+	 */
 	Tokenise(input_string) {
 		var regexp = /[^\s"]+|"([^"]*)"/gi;
 		var words = [];
@@ -13,11 +20,39 @@ Util = {
 		return words;
 	},
 
-	// EscapeHtml sanitises input and escapes html
+	/**
+	 * EscapeHtml sanitises and escapes html
+	 * 
+	 * @public
+	 * @param {string} text Text with html elements in it
+	 * @returns {string} Escaped plain text
+	 */
 	EscapeHtml(text) {
 		var div = document.createElement("div");
 		div.appendChild(document.createTextNode(text));
 		return div.innerHTML;
+	},
+
+	/**
+	 * TryCommand called by Input detects type of command and sends to client
+	 * or server.
+	 * 
+	 * @param {string} command String from user input
+	 */
+	TryCommand(command) {
+		command = command.trim();		
+		if (command == "") {
+			return;
+		}
+		
+		command = Util.EscapeHtml(command);
+
+		// Double check it's meant to be a client command
+		if (command.startsWith("//")) {
+			Client.RunCommand(command);
+		} else {
+			Server.RunCommand(command);
+		}
 	},
 };
 

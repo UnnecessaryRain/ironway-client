@@ -3,15 +3,6 @@ Server = {
 
 	// RunCommand sends command straight to server
 	RunCommand(command) {
-		command = command.trim();
-		command = Util.EscapeHtml(command);
-
-		// Double check it's not a client command
-		if (command.startsWith("//")) {
-			Client.RunCommand(command);
-			return;
-		}
-
 		Server.SendMessage(command);
 	},
 
@@ -128,7 +119,6 @@ Server = {
 
 		for (update in packet.client_messages) {
 			var message = packet.client_messages[update];
-			Display.LogMessage("\\green{Server:} " + message.content);
 			Display.Write(message.frame, message.content, message.mode);
 		}
 	},
