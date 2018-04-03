@@ -65,7 +65,7 @@ Client = {
 					break;
 				case "send":
 					if (tokens.length > 2) {
-						Server._Send(tokens[2]);
+						Server.SendMessage(tokens[2]);
 					} else {
 						Server.Ping();
 					}

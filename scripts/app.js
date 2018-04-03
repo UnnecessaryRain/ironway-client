@@ -1,4 +1,3 @@
-// 
 Util = {
 	// Tokenise splits strings on spaces or double quoted strings
 	Tokenise(input_string) {
@@ -16,19 +15,21 @@ Util = {
 
 	// EscapeHtml sanitises input and escapes html
 	EscapeHtml(text) {
-		var div = document.createElement('div');
+		var div = document.createElement("div");
 		div.appendChild(document.createTextNode(text));
 		return div.innerHTML;
 	},
 };
 
 window.onload = function () {
+	Auth.Initialise();
 	Display.Initialise();
+	Client.Initialise();
 	Server.Initialise();
 	Input.Initialise();
-	Client.Initialise();
 
 	Display.ClearFrame("log");
+	Display.ClearFrame("chat");
 
 	Server.Connect();
 }
