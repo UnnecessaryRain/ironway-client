@@ -12,7 +12,7 @@ Server = {
 			return;
 		}
 
-		Server._Send(command);
+		Server.SendMessage(command);
 	},
 
 	// Connect to server and address
@@ -48,7 +48,7 @@ Server = {
 
 	// Ping sends a ping
 	Ping() {
-		Server._Send("Ping!");
+		Server.SendMessage("/ping");
 	},
 
 	// Status gets status (in words) of server
@@ -67,24 +67,30 @@ Server = {
 		}
 	},
 
-	// _Send JSONified message to server
-	_Send(message) {
+	// SendMessage sends plain text to interpret as command
+	SendMessage(messageStr) {
+		var payload = {};
+		payload.messages = [messageStr];
+		Server._Write(payload);
+	},
+
+	// _Write converts message object to JSON and sends to server
+	_Write(message) {
 		if (Server._socket.readyState != 1) {
 			Display.LogError("Could not connect to server. Please check connection.");
 			return;
 		}
 
-		var payload = {
-			"messages": [message],
-		}
+		message.metadata = Auth.GetMetadata();
 
-		Server._socket.send(JSON.stringify(payload));
+		var payload = JSON.stringify(message);
+		Server._socket.send(payload);
 	},
 
 	// _OnOpen event trigger from connecting to server
 	_OnOpen(event) {
+		Server.SendMessage(Auth.username);
 		Display.LogMessage("Connected to server!");
-		Server.Ping();
 	},
 
 	// _OnClose event trigger from disconnecting to server
@@ -95,13 +101,15 @@ Server = {
 	// _OnMessage event trigger from recieving message from server
 	_OnMessage(event) {
 		var json = JSON.parse(event.data);
-		if (json["messages"] == undefined) {
-			console.error("Expected field 'messages' in server response", json);
+		if (json.updates == undefined) {
+			console.error("Expected field 'updates' in server response", json);
 			return;
 		}
 
-		for (m in json.messages) {
-			Display.LogMessage("\\green{Server:} " + json.messages[m]);
+		for (update in json.updates) {
+			var message = json.updates[update];
+			Display.LogMessage("\\green{Server:} " + message.content);
+			Display.Write(message.frame, message.content, message.mode);
 		}
 	},
 
