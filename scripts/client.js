@@ -20,7 +20,7 @@ Client = {
 				Input.RemoveBind(tokens[1]);
 			} else {
 				Input.AddBind(tokens[1], function () {
-					Client.RunCommand(tokens[2]);
+					Util.TryCommand(tokens[2]);
 				});
 			}
 		});

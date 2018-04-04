@@ -126,12 +126,12 @@ Input = {
 
 		// Zoom map in
 		Input.AddBind("=", function () {
-			Client.RunCommand("//zoom in");
+			Util.TryCommand("//zoom in");
 		});
 
 		// Zoom map out
 		Input.AddBind("-", function () {
-			Client.RunCommand("//zoom out");
+			Util.TryCommand("//zoom out");
 		});
 	},
 
