@@ -24,7 +24,7 @@ Server = {
 
 		Display.LogMessage("Connecting to server...");
 		// HACK(Samuel-Lewis): Hard coded address value is always local
-		Server._socket = new WebSocket("ws://127.0.0.1:8080/ws");
+		Server._socket = new WebSocket("ws://" + Auth.ip + "/ws");
 
 		Server._socket.onopen = function (event) {
 			Server._OnOpen(event);

@@ -1,11 +1,10 @@
 Auth = {
 	Initialise() {
-    var names = ["JohnSmith", "BadMan", "PullRudder", "JimmyKikket", "BigBoss", "BabyDoll55"]
-    Auth.username = names[Math.floor(Math.random() * names.length)];
     Auth.token = "1A2B3C4D";
+    Auth.username = window.prompt("Choose a USERNAME", "I_Cant_Read");
+    Auth.ip = window.prompt("Server IP", "127.0.0.1");
   },
-  
-  // 
+   
   /**
    * GetMetadata gets client specific data for message to server
    * 
