@@ -3,6 +3,7 @@ Display = {
 		Display._frames = {};
 		Display._frames["log"] = document.getElementById("log");
 		Display._frames["chat"] = document.getElementById("chat");
+		Display._frames["online"] = document.getElementById("online");
 		Display._frames["map-viewer"] = document.getElementById("map-viewer");
 		Display._frames["map-title"] = document.getElementById("map-title");
 		Display._map_zoom = 1;

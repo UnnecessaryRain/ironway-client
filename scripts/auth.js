@@ -1,6 +1,7 @@
 Auth = {
 	Initialise() {
-    Auth.username = "JohnSmith";
+    var names = ["JohnSmith", "BadMan", "PullRudder", "JimmyKikket", "BigBoss", "BabyDoll55"]
+    Auth.username = names[Math.floor(Math.random() * names.length)];
     Auth.token = "1A2B3C4D";
   },
   
