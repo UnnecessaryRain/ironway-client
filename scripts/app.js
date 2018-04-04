@@ -47,7 +47,7 @@ Util = {
 		
 		command = Util.EscapeHtml(command);
 
-		// Double check it's meant to be a client command
+		// Check if client command or not
 		if (command.startsWith("//")) {
 			Client.RunCommand(command);
 		} else {
