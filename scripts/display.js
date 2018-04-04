@@ -1,4 +1,8 @@
 Display = {
+	/**
+	 * Initialise finds all html elements and maps them to their id.
+	 * @public
+	 */
 	Initialise() {
 		Display._frames = {};
 		Display._frames["log"] = document.getElementById("log");
@@ -19,23 +23,46 @@ Display = {
 		}
 	},
 
-	// LogMessage logs message to log box
+	/**
+	 * LogMessage alias to append to log frame
+	 * 
+	 * @public
+	 * @param {string} message Message to log
+	 */
 	LogMessage(message) {
 		Display.Write("log", message, "APPEND");
 	},
-	
-	// LogError prints a flavoured error message
+
+	/**
+	 * LogError alias to append to log frame with formatting
+	 * 
+	 * @public
+	 * @param {string} message Message to log
+	 */
 	LogError(message) {
 		message = "\\red{Error}: " + message;
 		Display.Write("log", message, "APPEND");
 	},
 
-	// ClearFrame removes all content of a given frame.
+	/**
+	 * ClearFrame alias to replace frame with empty string.
+	 * Effectively clears a frame.
+	 * 
+	 * @public
+	 * @param {string} frame ID of frame to clear
+	 */
 	ClearFrame(frame) {
 		Display.Write(frame, "", "REPLACE");
 	},
 
-	// Write a message to a frame, either append or replace mode
+	/**
+	 * Write a message to a given frame.
+	 * 
+	 * @public
+	 * @param {string} frame ID of the frame to change
+	 * @param {string} message Message to append/set to the frame
+	 * @param {string} mode "REPLACE" to replace all contents. "APPEND" to add new element.
+	 */
 	Write(frame, message, mode) {
 		message = Display.Format(message);
 
@@ -48,7 +75,12 @@ Display = {
 		}
 	},
 
-	// MapZoom changes font size of the map to 'zoom'
+	/**
+	 * MapZoom changes the 'zoom' of the map-view. Uses font size.
+	 * 
+	 * @public
+	 * @param {number} direction Direction to zoom. -1 zooms in. +1 zooms out.
+	 */
 	MapZoom(direction) {
 		Display._map_zoom += direction * 0.2;
 		Display._map_zoom = Math.max(0.6, Display._map_zoom);
@@ -56,7 +88,14 @@ Display = {
 		Display._frames["map-viewer"].style.fontSize = Display._map_zoom + "em";
 	},
 
-	// Format formats given string message with colours and trimming
+	/**
+	 * Fromat parses given message to detect for \style{message} syntax.
+	 * Does additional clean up or checking. Does NOT sanatise.
+	 * 
+	 * @public
+	 * @param {string} message Message to format. eg: "cool \green{dog}"
+	 * @returns {string} Formatted HTML. eg: "cool <span style='..'>dog</span>"
+	 */
 	Format(message) {
 		message = message.trim();
 
@@ -82,7 +121,13 @@ Display = {
 		return message;
 	},
 
-	// _Append appends to end of element, and scrolls to new content
+	/**
+	 * _Append adds a new paragraph element to a given frame
+	 * 
+	 * @private
+	 * @param {HTML Element} element Element in DOM, that has innerHTML
+	 * @param {string} message Message to append to element
+	 */
 	_Append(element, message) {
 		if (message.length < 0) {
 			return;
@@ -93,7 +138,13 @@ Display = {
 		element.scrollTop = element.scrollHeight;
 	},
 
-	// _Set replaces entire innerHTML of element with message
+	/**
+	 * _Set overwrite entire element content with new content
+	 * 
+	 * @private
+	 * @param {HTML Element} element Element in DOM, that has innerHTML
+	 * @param {string} message Message to set on element
+	 */
 	_Set(element, message) {
 		element.innerHTML = message;
 	},

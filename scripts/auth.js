@@ -5,7 +5,13 @@ Auth = {
     Auth.token = "1A2B3C4D";
   },
   
-  // GetMetadata gets client specific data for message to server
+  // 
+  /**
+   * GetMetadata gets client specific data for message to server
+   * 
+   * @public
+   * @returns Object of client metadata for server packets
+   */
   GetMetadata() {
     var metadata = {};
     metadata.username = Auth.username;

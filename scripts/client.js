@@ -1,4 +1,8 @@
 Client = {
+	/**
+	 * Initialise client and sets up binds
+	 * @public
+	 */
 	Initialise() {
 		Client._commands = {};
 		Client._help_functions = {};
@@ -16,7 +20,7 @@ Client = {
 				Input.RemoveBind(tokens[1]);
 			} else {
 				Input.AddBind(tokens[1], function () {
-					Client.RunCommand(tokens[2]);
+					Util.TryCommand(tokens[2]);
 				});
 			}
 		});
@@ -81,17 +85,13 @@ Client = {
 		Client._AddHelpFunction("//server send [message]", "Sends plain text \\i{message} to server");
 	},
 
-	// RunCommand looks at command, interprets if its for server of client
+	/**
+	 * RunCommand is default way of executing a command to the client.
+	 * 
+	 * @public
+	 * @param {string} command Inputted command eg: "//help"
+	 */
 	RunCommand(command) {
-		command = command.trim();
-		command = Util.EscapeHtml(command);
-
-		// Double check it's meant to be a client command
-		if (!command.startsWith("//")) {
-			Server.RunCommand(command);
-			return;
-		}
-
 		// Get command and tail
 		command = command.slice(2);
 		var tokens = Util.Tokenise(command);
@@ -104,17 +104,34 @@ Client = {
 		}
 	},
 
-	// _AddCommand adds a keyword `command` that calls an action.
+	/**
+	 * _AddCommand adds a keyword that triggers an action on press.
+	 * 
+	 * @private
+	 * @param {string} command Plain text command eg "/move n"
+	 * @param {Function} action Function to trigger on key press
+	 */
 	_AddCommand(command, action) {
 		Client._commands[command] = action;
 	},
 
-	// _AddHelpFunction adds help function and text for pretty print
+	/**
+	 * _AddHelpFunction adds commands to a list for when user types `//help`.
+	 * Note, should only be for client side commands (starting with //)
+	 * 
+	 * @private
+	 * @param {string} command eg: "//help"
+	 * @param {string} message eg: "Shows the help menu"
+	 */
 	_AddHelpFunction(command, message) {
 		Client._help_functions[command] = message;
 	},
 
-	// _HelpText gets listed help functions and organises and pretty arranges them
+	/**
+	 * _HelpText collates and pretty prints the client help functions
+	 * 
+	 * @returns {string} Formatted version of client help functions
+	 */
 	_HelpText() {
 		var longest = 0;
 		var keys = Object.keys(Client._help_functions);

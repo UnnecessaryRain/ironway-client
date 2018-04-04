@@ -1,21 +1,20 @@
 Server = {
 	Initialise() {},
 
-	// RunCommand sends command straight to server
+	/**
+	 * RunCommand gets a inputted command from Util.TryCommand and sends to server
+	 * 
+	 * @public
+	 * @param {string} command Command to execute. eg: "/move n"
+	 */
 	RunCommand(command) {
-		command = command.trim();
-		command = Util.EscapeHtml(command);
-
-		// Double check it's not a client command
-		if (command.startsWith("//")) {
-			Client.RunCommand(command);
-			return;
-		}
-
 		Server.SendMessage(command);
 	},
 
-	// Connect to server and address
+	/**
+	 * Connect tries to establish connection to server through websocket
+	 * @public
+	 */
 	Connect() {
 		if (!("WebSocket" in window)) {
 			alert("WebSockets are not supported by your browser. Please upgrade to connect to the server.");
@@ -24,6 +23,7 @@ Server = {
 		}
 
 		Display.LogMessage("Connecting to server...");
+		// HACK(Samuel-Lewis): Hard coded address value is always local
 		Server._socket = new WebSocket("ws://127.0.0.1:8080/ws");
 
 		Server._socket.onopen = function (event) {
@@ -40,18 +40,29 @@ Server = {
 		}
 	},
 
-	// Disconnect from the server
+	/**
+	 * Disconnects from server
+	 * @public
+	 */
 	Disconnect() {
 		// TODO(#10) : Send some logout notification to server
 		Server._socket.close();
 	},
 
-	// Ping sends a ping
+	/**
+	 * Ping is alias to user command /ping
+	 * @public
+	 */
 	Ping() {
 		Server.SendMessage("/ping");
 	},
 
-	// Status gets status (in words) of server
+	/**
+	 * Status gets a text representation of the status of the connection.
+	 * 
+	 * @public
+	 * @returns {string} Status of the connection
+	 */
 	Status() {
 		switch (Server._socket.readyState) {
 			case 0:
@@ -67,12 +78,22 @@ Server = {
 		}
 	},
 	
-	// SendMessage sends plain text to interpret as command
-	SendMessage(messageStr) {
-		Server._Write([messageStr]);
+	/**
+	 * SendMessage compiles multiple messages together to send to server
+	 * 
+	 * @public
+	 * @param {string} message Message to send to server
+	 */
+	SendMessage(message) {
+		Server._Write([message]);
 	},
 
-	// _Write converts message object to JSON and sends to server
+	/**
+	 * _Write converts message object to JSON and sends to server
+	 * 
+	 * @private
+	 * @param {(string|Array)} messages Array of messages to send to server
+	 */
 	_Write(messages) {
 		if (Server._socket.readyState != 1) {
 			Display.LogError("Could not connect to server. Please check connection.");
@@ -89,12 +110,24 @@ Server = {
 		Server._socket.send(payload);
 	},
 	
-	// _Serialise converts js object to JSON string
+	/**
+	 * _Serialise converts js object to JSON string
+	 * 
+	 * @private
+	 * @param {Object} packetObj 
+	 * @returns {string} JSON version of given object
+	 */
 	_Serialise(packetObj) {
 		return JSON.stringify(packetObj);
 	},
 
-	// _Deserialise converts JSON string to js object and verifies
+	/**
+	 * _Deserialise converts JSON string to js object and verifies
+	 * 
+	 * @private
+	 * @param {string} packetStr 
+	 * @returns {Object} JS object of given JSON string
+	 */
 	_Deserialise(packetStr) {
 		var packet = JSON.parse(packetStr);
 		if (packet.metadata == undefined) {
@@ -111,29 +144,48 @@ Server = {
 		return packet;
 	},
 
-	// _OnOpen event trigger from connecting to server
+	/**
+	 * _OnOpen event trigger from connecting to server
+	 * 
+	 * @private
+	 * @param {Object} event Connection event
+	 */
 	_OnOpen(event) {
 		Server.SendMessage(Auth.username);
 		Display.LogMessage("Connected to server!");
 	},
 
-	// _OnClose event trigger from disconnecting to server
+	/**
+	 * _OnClose event trigger from disconnecting to server
+	 * 
+	 * @private
+	 * @param {Object} event Disconnect event
+	 */
 	_OnClose(event) {
 		Display.LogMessage("Disconnected from server.");
 	},
 
-	// _OnMessage event trigger from recieving message from server
+	/**
+	 * _OnMessage event trigger from recieving message from server
+	 * 
+	 * @private
+	 * @param {Object} event Event with message data
+	 */
 	_OnMessage(event) {
 		var packet = Server._Deserialise(event.data);
 
 		for (update in packet.client_messages) {
 			var message = packet.client_messages[update];
-			Display.LogMessage("\\green{Server:} " + message.content);
 			Display.Write(message.frame, message.content, message.mode);
 		}
 	},
 
-	// _OnMessage event trigger from error with server connection
+	/**
+	 * _OnMessage event trigger from error with server connection 
+	 * 
+	 * @private
+	 * @param {Object} event Event with message error and status
+	 */
 	_OnError(event) {
 		console.error("Could not connect to server", event);
 		Display.LogError("Could not connect to server. Please check connection.");
